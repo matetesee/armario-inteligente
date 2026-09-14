@@ -1,0 +1,12 @@
+{
+  "name": "matetesee",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Quiz funnel - Estilo JB (150 Looks con 15 Prendas) - version en castellano",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
