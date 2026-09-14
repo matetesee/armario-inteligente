@@ -372,7 +372,14 @@ var CONFIG = {
   TESTIMONIALS: [
     { name:"Raquel F., 34", result:"placard inteligente", text:"¡Amé esta guía! La compré y estoy feliz. Con esas 15 prendas comodín armé mi placard inteligente y ahora salir de casa es un placer, no un problema." },
     { name:"Alexandra B., 41", result:"lo uso muchísimo", text:"Lo compré y no me arrepiento para nada. Lo uso todas las semanas para armar mis looks." },
-    { name:"Marcia D., 29", result:"mejor compra del año", text:"La mejor compra que hice en mucho tiempo. Dejé de comprar ropa por impulso y ahora combino todo lo que ya tengo." }
+    { name:"Marcia D., 29", result:"mejor compra del año", text:"La mejor compra que hice en mucho tiempo. Dejé de comprar ropa por impulso y ahora combino todo lo que ya tengo." },
+    { name:"Lorena P., 38", result:"ahorré tiempo real", text:"Se acabaron las mañanas de probarme seis outfits distintos. 5 minutos y estoy lista." },
+    { name:"Gisela M., 45", result:"me animé a lo simple", text:"Tenía miedo de que 'simple' fuera aburrido. Es todo lo contrario, me veo mejor que nunca." },
+    { name:"Camila V., 27", result:"looks para el trabajo", text:"Uso el mismo método para armar toda mi semana laboral. Cero estrés a la mañana." },
+    { name:"Débora H., 31", result:"dejé de comprar de más", text:"Ahorré plata real: dejé de comprar ropa que después no combinaba con nada." },
+    { name:"Silvina T., 50", result:"nunca es tarde", text:"A los 50 aprendí a vestirme mejor que a los 30. Nunca es tarde para esto." },
+    { name:"Romina K., 24", result:"para salir de dudas", text:"Cuando dudo qué ponerme, abro el Manual y en un minuto tengo la respuesta." },
+    { name:"Patricia Q., 43", result:"recomendada 100%", text:"Se la recomendé a mi hermana y a dos amigas. Las tres lo compraron." }
   ],
   FAQ: [
     { q:"¿Cómo recibo el Manual después de comprar?", a:"Es 100% digital. Apenas se confirma tu pago recibís acceso inmediato por correo electrónico." },
@@ -401,6 +408,9 @@ var CONFIG = {
       {t:"☀️ Calor la mayor parte del año"},
       {t:"⛅ A veces calor, a veces frío"},
       {t:"❄️ Frío la mayor parte del año"}] },
+    { type:"social", h:"Esto ya está ayudando a <span class='am'>miles de mujeres</span>", sub:"Mirá lo que cuentan las que ya lo probaron", items:[
+      { name:"Valentina G., 33", result:"me cambió la rutina", text:"Antes tardaba 20 minutos en elegir qué ponerme. Ahora en 2 minutos ya salgo lista." },
+      { name:"Norma S., 47", result:"a mi edad también funciona", text:"Pensé que esto era para más jóvenes. Me equivoqué, me sirvió muchísimo." }] },
     { type:"inter", icon:"💡", h:"Esto no es falta de <span class='am'>buen gusto</span>", body:"Es falta de método. Con las prendas correctas y las combinaciones ya armadas, no necesitás 'tener buen ojo' para verte bien todos los días.", quote:"“El estilo se aprende, no se nace con él.”" },
     { type:"input", h:"¿Cuál es tu nombre?", sub:"Para personalizar tu Manual", placeholder:"Tu nombre", key:"name" },
     { type:"cards", h:"Cuando tenés un evento y necesitás elegir un look especial, vos:", cols:1, opts:[
@@ -414,6 +424,9 @@ var CONFIG = {
       {t:"Cómoda y práctica"},
       {t:"Sentirme más elegante"},
       {t:"Sentirme más valorada"}] },
+    { type:"social", h:"{name}, <span class='am'>no sos la única</span>", sub:"Estas mujeres empezaron exactamente donde estás vos", items:[
+      { name:"Estefanía R., 36", result:"placard resuelto", text:"Llevo 2 meses usando el método y ya no compro ropa por impulso." },
+      { name:"Bettina L., 25", result:"looks en segundos", text:"Lo recomendé a todo mi grupo de amigas, todas terminaron comprándolo." }] },
     { type:"inter", icon:"✨", h:"{name}, <span class='am'>vamos a ayudarte</span>", body:"Se acabó abrir el placard y sentir que no tenés nada que ponerte. Con nuestro método de 150 looks con solo 15 prendas, vas a descubrir cómo armar combinaciones prácticas, versátiles y con estilo, sintiéndote segura todos los días." },
     { type:"multi", key:"zonas", h:"¿Cuál de estas opciones te ayudaría más?", sub:"Elegí todas las que apliquen", opts:[
       {t:"✨ Tener looks más elegantes y con estilo"},
@@ -487,6 +500,16 @@ function render(){
       go(state.i+1); };
     return;
   }
+  if(s.type==='social'){
+    var items = s.items || [];
+    html += '<div class="sp-tst">' + items.map(function(x){
+      return '<div class="c"><div class="stars">★★★★★</div><p class="q">"'+esc(x.text)+'"</p><div class="who"><b>'+esc(x.name)+'</b><span class="res">'+esc(x.result)+'</span></div></div>';
+    }).join('') + '</div>';
+    html += '<button class="sp-cta" id="spNext">Continuar</button>';
+    stage.innerHTML = html;
+    document.getElementById('spNext').onclick = function(){ go(state.i+1); };
+    return;
+  }
   if(s.type==='inter'){
     html='<div class="sp-inter"><div class="sp-icon">'+(s.icon||'🛡️')+'</div><h1>'+withName(s.h||'')+'</h1><p>'+esc(withName(s.body||''))+'</p>'+(s.quote?'<p class="sp-quote">'+esc(s.quote)+'</p>':'')+'</div>';
     html+='<button class="sp-cta" id="spNext">Continuar</button>';
@@ -537,6 +560,8 @@ function renderResult(){
     '<div class="goalb"><span class="lab">Con el Manual</span><div class="v">'+looksGoal+'</div></div></div>'+
     '<div id="spProjHost" style="margin:22px 0 6px"></div>'+
     zHtml+
+    (function(){ var t=CONFIG.TESTIMONIALS[Math.floor(Math.random()*CONFIG.TESTIMONIALS.length)];
+      return '<div class="sp-tst" style="margin:18px 0"><div class="c"><div class="stars">★★★★★</div><p class="q">"'+esc(t.text)+'"</p><div class="who"><b>'+esc(t.name)+'</b><span class="res">'+esc(t.result)+'</span></div></div></div>'; })()+
     '<button class="sp-cta" id="spBuild">Ver mi Manual</button></div>';
   document.getElementById('spGaugeHost').appendChild(spGauge({value:potential, label:'', sublabel:'sobre 100 · lista para brillar'}));
   document.getElementById('spProjHost').appendChild(spProjection({fromKg:looksNow, toKg:looksGoal, unit:' looks', name:A.name, targetDateLabel:'Con el Manual'}));
